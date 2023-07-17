@@ -1,4 +1,4 @@
-const User =require('../model/Userschema');
+const User =require('../model/userSchema')
 const jwt = require('jsonwebtoken');
 const UnauthenticatedError = require('./unauthenticated');
 
