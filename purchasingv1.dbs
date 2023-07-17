@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MongoDb" id="Project-ae7" database="MongoDb" >
+	<schema name="test" >
+		<table name="Chain" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="productid" type="string" jt="12" mandatory="y" />
+			<column name="sizeS" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="sizeM" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="sizeL" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="fk_Chain_productschemas" virtual="y" to_schema="test" to_table="productschemas" >
+				<fk_column name="_id" pk="sizeid" />
+			</fk>
+		</table>
+		<table name="Collection" />
+		<table name="cart" prior="Collection" />
+		<table name="cartdetail" prior="Collection" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="productid" type="objectId" jt="-8" mandatory="y" />
+			<column name="size" type="string" jt="12" mandatory="y" />
+			<column name="quantity" type="int" jt="4" mandatory="y" />
+			<column name="amount" type="long" jt="-1" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="fk_cartdetail_productschemas" virtual="y" to_schema="test" to_table="productschemas" >
+				<fk_column name="productid" pk="_id" />
+			</fk>
+		</table>
+		<table name="glass" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="productid" type="string" jt="12" mandatory="y" />
+			<column name="sizeS" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="sizeM" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="sizeL" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="fk_glass_productschemas" virtual="y" to_schema="test" to_table="productschemas" >
+				<fk_column name="_id" pk="sizeid" />
+			</fk>
+		</table>
+		<table name="ordermanagement" prior="Collection" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="customername" type="string" jt="12" mandatory="y" />
+			<column name="cusPhoneNumber" type="string" jt="12" mandatory="y" />
+			<column name="cusAdress" type="string" jt="12" mandatory="y" />
+			<column name="cusEmail" type="string" jt="12" mandatory="y" />
+			<column name="cartdetail" prior="cusCart" type="array[object]" jt="4999545" mandatory="y" />
+			<column name="casStatus" type="string" jt="12" mandatory="y" />
+			<column name="updatetime" type="timestamp" jt="93" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="fk_ordermanagement_cartdetail" virtual="y" to_schema="test" to_table="cartdetail" >
+				<fk_column name="cartdetail" pk="_id" />
+			</fk>
+		</table>
+		<table name="productschemas" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="productname" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="imgpath" type="array[string]" jt="2003" mandatory="y" />
+			<column name="description" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="price" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="catalog" type="enum" jt="12" mandatory="y" >
+				<enumeration><![CDATA['chain','watch','tie','glass']]></enumeration>
+			</column>
+			<column name="sizeid" prior="sizeandqty" type="objectId" jt="-8" mandatory="y" />
+			<column name="__v" type="timestamp" jt="93" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<index name="unq_productschemas" unique="UNIQUE_KEY" >
+				<column name="sizeid" />
+			</index>
+		</table>
+		<table name="tie" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="productid" type="string" jt="12" mandatory="y" />
+			<column name="sizeS" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="sizeM" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="sizeL" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="fk_tie_productschemas" virtual="y" to_schema="test" to_table="productschemas" >
+				<fk_column name="_id" pk="sizeid" />
+			</fk>
+		</table>
+		<table name="users" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="email" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="username" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="password" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="__v" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<index name="email_1" unique="UNIQUE_KEY" >
+				<column name="email" />
+			</index>
+			<index name="username_1" unique="UNIQUE_KEY" >
+				<column name="username" />
+			</index>
+		</table>
+		<table name="watch" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="size39" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="size40" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="size41" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="size42" type="int" jt="4" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+	</schema>
+	<connector name="MongoDb" database="MongoDb" url="mongodb+srv://nhanductanbinh:Nhanduc811@cluster0.ln8htyp.mongodb.net/?retryWrites=true&amp;w=majority" host="localhost" port="27017" instance="cluster0" user="nhanductanbinh" passwd="TmhhbmR1YzgxMQ==" useSystemProxy="false" />
+	<layout name="Main Layout" id="Layout-f9c" show_relation="name" >
+		<entity schema="test" name="Chain" color="C1D8EE" x="384" y="400" />
+		<entity schema="test" name="cartdetail" color="C1D8EE" x="656" y="80" />
+		<entity schema="test" name="glass" color="C1D8EE" x="384" y="544" />
+		<entity schema="test" name="ordermanagement" color="C1D8EE" x="624" y="320" />
+		<entity schema="test" name="productschemas" color="C7F4BE" x="48" y="160" />
+		<entity schema="test" name="tie" color="C1D8EE" x="384" y="688" />
+		<entity schema="test" name="users" color="F4DDBE" x="1408" y="128" />
+		<entity schema="test" name="watch" color="C1D8EE" x="384" y="256" />
+		<group name="Collection &#039;users&#039;" color="F7F2EC" >
+			<entity schema="test" name="users" />
+		</group>
+		<group name="Collection &#039;productschemas&#039;" color="EEF7EC" >
+			<entity schema="test" name="productschemas" />
+		</group>
+		<group name="size\" color="C4E0F9" >
+			<entity schema="test" name="watch" />
+			<entity schema="test" name="Chain" />
+			<entity schema="test" name="glass" />
+			<entity schema="test" name="tie" />
+		</group>
+		<script name="ordermanagement" id="Editor-80d" language="SQL" >
+			<string><![CDATA[test.ordermanagement.find()]]></string>
+		</script>
+		<query id="Query-fde" name="fk_Chain_productschemas" confirmed="y" >
+			<query_table schema="test" name="productschemas" alias="productschemas" x="48" y="48" >
+				<column name="_id" />
+				<column name="productname" />
+				<column name="imgpath" />
+				<column name="description" />
+				<column name="price" />
+				<column name="catalog" />
+				<column name="sizeid" />
+				<column name="__v" />
+				<column name="catalog" filter=":c = &#039;chain&#039;" />
+				<query_table schema="test" name="Chain" alias="Chain" x="752" y="112" fk="fk_Chain_productschemas" type="Full Outer Join" />
+			</query_table>
+		</query>
+		<query id="Query-1dc2" name="fk_glass_productschemas" groupby="y" confirmed="y" >
+			<query_table schema="test" name="productschemas" alias="productschemas" x="48" y="48" >
+				<column name="_id" />
+				<column name="productname" />
+				<column name="imgpath" />
+				<column name="description" />
+				<column name="price" />
+				<column name="catalog" />
+				<column name="sizeid" />
+				<column name="__v" />
+				<column name="catalog" filter=":c = &#039;glass&#039;" />
+				<query_table schema="test" name="glass" alias="glass" x="624" y="48" fk="fk_glass_productschemas" type="Inner Join" />
+			</query_table>
+		</query>
+		<query id="Query-1fc" name="fk_ordermanagement_cartdetail_001" groupby="y" >
+			<query_table schema="test" name="ordermanagement" alias="ordermanagement" x="256" y="48" />
+		</query>
+		<query id="Query-26a2" name="fk_tie_productschemas" confirmed="y" >
+			<query_table schema="test" name="productschemas" alias="productschemas" x="48" y="48" >
+				<column name="_id" />
+				<column name="productname" />
+				<column name="imgpath" />
+				<column name="description" />
+				<column name="price" />
+				<column name="catalog" />
+				<column name="sizeid" />
+				<column name="__v" />
+				<column name="catalog" filter=":c = &#039;tie&#039;" />
+				<query_table schema="test" name="tie" alias="tie" x="624" y="64" fk="fk_tie_productschemas" type="Inner Join" />
+			</query_table>
+		</query>
+		<query id="Query-b2c" name="fk_tie_productschemas_001" confirmed="y" >
+			<query_table schema="test" name="productschemas" alias="productschemas" x="48" y="48" >
+				<column name="_id" />
+				<column name="productname" />
+				<column name="imgpath" />
+				<column name="description" />
+				<column name="price" />
+				<column name="catalog" />
+				<column name="sizeid" />
+				<column name="__v" />
+				<column name="catalog" filter=":c = &#039;tie&#039;" />
+				<query_table schema="test" name="tie" alias="tie" x="624" y="80" fk="fk_tie_productschemas" type="Full Outer Join" />
+			</query_table>
+		</query>
+		<query id="Query-ccd" name="fk_watch_productschemas" confirmed="y" >
+			<query_table schema="test" name="watch" alias="watch" x="560" y="64" />
+		</query>
+		<query id="Query-247f" name="ordermanagement_002" confirmed="y" >
+			<query_table schema="test" name="cartdetail" alias="cartdetail" x="432" y="80" />
+		</query>
+	</layout>
+	<layout name="purchasing" id="Layout-931" show_relation="name" />
+	<layout name="~Layout with Sample Tools" id="Layout-1996" show_column_type="y" show_relation="name" >
+		<entity schema="test" name="productschemas" color="C7F4BE" x="48" y="80" />
+		<entity schema="test" name="productschemas" column="sizeid" color="C7F4BE" x="64" y="304" />
+		<entity schema="test" name="users" color="F4DDBE" x="320" y="544" />
+		<group name="users" color="F7F2EC" >
+			<entity schema="test" name="users" />
+		</group>
+		<group name="productschemas" color="EEF7EC" >
+			<entity schema="test" name="productschemas" />
+			<entity schema="test" name="productschemas" column="sizeid" />
+		</group>
+		<script name="Query Editor" id="Editor-d40" language="SQL" >
+			<string><![CDATA[This is a layout. 
+- Double-click collection headers or fields to edit the validation rules 
+- Drag collections to the layout from the structure tree, or 
+   add them by pressing the arrow icon near fields 
+- Create multiple layouts with the same or different collections 
+- Right-click the layout to design new collectionstest.jobs.find()
+
+//OR
+
+USE test;
+db.jobs.find()
+
+//OR
+
+USE test;
+db.getCollection('jobs').find()]]></string>
+		</script>
+		<query id="Query-c15" name="Query Builder" >
+			<query_table schema="test" name="users" alias="users" x="48" y="48" >
+				<column name="_id" />
+				<column name="email" />
+				<column name="username" />
+				<column name="password" />
+				<column name="__v" />
+			</query_table>
+		</query>
+		<form name="Report" id="Report-1190" template="Page" css="container-fluid" view="frame" >
+			<var name="samplePageNumber" type="4" value="0" mandatory="n" />
+			<var name="sampleRecordsPerPage" type="4" value="100" mandatory="n" />
+			<body name="Body" template="Grid" pos="0,0,0,0,f,f" layout="{{-2,-2,-2,-2,-1},{-2,-2,-2,-2}}" scroll="n" html="n" >
+				<cell type="label" name="Jobs Data" template="H3" pos="0,0,1,0,l,c" />
+				<cell type="chart" name="Pie" template="Pie" pos="0,1,4,1,l,c" max_records="20" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="_id" type="-8" />
+						<var name="company" type="-1" />
+						<var name="position" type="-1" />
+						<var name="createdBy" type="-8" />
+						<var name="__v" type="4" />
+						<script ><![CDATA[test.jobs.find()]]></script>
+					</form_script>
+					<param name="i0" value="position" />
+					<param name="width" value="100%" />
+					<param name="v0" value="__v" />
+					<param name="title" value="Sample Chart" />
+					<param name="height" value="400px" />
+				</cell>
+				<tableview name="sample" template="Table" css="table table-striped table-sm table-hover" pos="0,2,4,2,f,f" layout="{{-2,-2,-2,-2,-2,-2},{-2,-2}}" scroll="n" html="n" header_rows="1" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="_id" type="-8" />
+						<var name="company" type="-1" />
+						<var name="position" type="-1" />
+						<var name="createdBy" type="-8" />
+						<var name="__v" type="4" />
+						<script ><![CDATA[test.jobs.find()]]></script>
+					</form_script>
+					<cell type="label" name="_id" pos="0,0,0,0,c,c" />
+					<cell type="label" name="company" pos="1,0,1,0,c,c" />
+					<cell type="label" name="position" pos="2,0,2,0,c,c" />
+					<cell type="label" name="createdBy" pos="3,0,3,0,c,c" />
+					<cell type="label" name="__v" pos="4,0,4,0,c,c" />
+					<cell type="label" name="Button can open other pages." pos="5,0,5,0,c,c" />
+					<cell type="label" name="${_id}" template="Plain" pos="0,1,0,1,l,c" />
+					<cell type="label" name="${company}" template="Plain" pos="1,1,1,1,l,c" />
+					<cell type="label" name="${position}" template="Plain" pos="2,1,2,1,l,c" />
+					<cell type="label" name="${createdBy}" template="Plain" pos="3,1,3,1,l,c" />
+					<cell type="label" name="${__v}" template="Plain" pos="4,1,4,1,l,c" />
+					<cell type="button" name="More" template="Plain" css="btn btn-sm btn-secondary" pos="5,1,5,1,c,c" ref_id="Report-1190" />
+				</tableview>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="0,3,0,3,l,c" glyph="bi-chevron_double_left" ref_id="Report-1190" >
+					<var name="samplePageNumber" value="0" />
+				</cell>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="1,3,1,3,l,c" glyph="bi-chevron_left" ref_id="Report-1190" >
+					<var name="samplePageNumber" value="${Math.max(0,samplePageNumber-1)}" />
+				</cell>
+				<cell type="label" name="Page ${samplePageNumber+1}" pos="2,3,2,3,l,c" />
+				<cell type="href" name="" disabled="${!sampleHasNextPage}" pos="3,3,3,3,l,c" glyph="bi-chevron_right" ref_id="Report-1190" >
+					<var name="samplePageNumber" value="${( samplePageNumber+1 )}" />
+				</cell>
+			</body>
+		</form>
+	</layout>
+</project>
