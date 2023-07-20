@@ -28,7 +28,7 @@ const createorder = async (req,res)=>{
                 }
                 if(quantity<=product.storageid[size]){ 
                     const price = product.price
-                    let currentCart = await CartSchema.create({productid,size,quantity});
+                    let currentCart = await CartSchema.create({productid,size,quantity,price:price});
                     cart.push(currentCart._id);
                     cartProducts.push({productid,price,size,quantity});
                 }else{
